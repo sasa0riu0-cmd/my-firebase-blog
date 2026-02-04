@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎬 Premium Video Store</title>
+    <title id="pageTitle">🎬 Premium Video Store</title>
     <style>
         * {
             margin: 0;
@@ -63,6 +63,30 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+        }
+        
+        .editable-inline {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .edit-icon {
+            opacity: 0;
+            transition: opacity 0.2s;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: var(--primary);
+        }
+        
+        .admin-mode .edit-icon {
+            opacity: 1;
+        }
+        
+        .editable-inline:hover .edit-icon {
+            opacity: 1;
         }
         
         .nav-tabs {
@@ -81,6 +105,7 @@
             border-radius: 0.5rem;
             transition: all 0.2s;
             font-size: 0.875rem;
+            position: relative;
         }
         
         .nav-tab:hover {
@@ -347,6 +372,15 @@
             border: none;
         }
         
+        /* 投稿画像 */
+        .post-image {
+            width: 100%;
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.75rem;
+            margin: 1rem 0;
+        }
+        
         /* ブログ投稿 */
         .blog-post {
             background: var(--dark-blue-light);
@@ -354,6 +388,7 @@
             padding: 2rem;
             margin-bottom: 1.5rem;
             border: 1px solid var(--dark-blue-lighter);
+            position: relative;
         }
         
         .blog-post-title {
@@ -376,6 +411,14 @@
             align-items: center;
             padding-top: 1rem;
             border-top: 1px solid var(--dark-blue-lighter);
+        }
+        
+        .blog-post-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
         }
         
         /* つぶやき */
@@ -535,6 +578,7 @@
             padding: 1.5rem;
             margin-bottom: 1rem;
             border: 2px solid rgba(251, 191, 36, 0.3);
+            position: relative;
         }
         
         .vip-post-title {
@@ -544,6 +588,20 @@
             margin-bottom: 0.75rem;
             display: flex;
             align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .vip-post-content {
+            color: var(--text-gray);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .vip-post-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
             gap: 0.5rem;
         }
         
@@ -573,12 +631,24 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">🎬 Premium Store</div>
+            <div class="logo editable-inline">
+                <span id="siteName">🎬 Premium Store</span>
+                <span class="edit-icon admin-only" onclick="editSiteName()">✏️</span>
+            </div>
             
             <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="switchTab('videos')">📹 動画</button>
-                <button class="nav-tab" onclick="switchTab('blog')">📝 ブログ</button>
-                <button class="nav-tab" onclick="switchTab('vip')">👑 VIP</button>
+                <button class="nav-tab active editable-inline" onclick="switchTab('videos')" data-tab="videos">
+                    <span id="tab1Name">📹 動画</span>
+                    <span class="edit-icon admin-only" onclick="event.stopPropagation(); editTabName('tab1Name')">✏️</span>
+                </button>
+                <button class="nav-tab editable-inline" onclick="switchTab('blog')" data-tab="blog">
+                    <span id="tab2Name">📝 ブログ</span>
+                    <span class="edit-icon admin-only" onclick="event.stopPropagation(); editTabName('tab2Name')">✏️</span>
+                </button>
+                <button class="nav-tab editable-inline" onclick="switchTab('vip')" data-tab="vip">
+                    <span id="tab3Name">👑 VIP</span>
+                    <span class="edit-icon admin-only" onclick="event.stopPropagation(); editTabName('tab3Name')">✏️</span>
+                </button>
             </nav>
             
             <div class="user-menu">
@@ -622,7 +692,8 @@
                     <div id="blogAdminPanel" class="card admin-panel">
                         <div class="card-title">📝 ブログを投稿</div>
                         <input type="text" id="blogTitle" placeholder="タイトル">
-                        <textarea id="blogContent" placeholder="本文" style="min-height:200px;"></textarea>
+                        <textarea id="blogContent" placeholder="本文（改行可能）" style="min-height:200px;"></textarea>
+                        <input type="url" id="blogImage" placeholder="画像URL（任意）">
                         <button class="btn btn-primary" onclick="addBlogPost()">📤 投稿</button>
                     </div>
                     
@@ -637,6 +708,7 @@
                         <div class="card">
                             <div class="card-title">💭 VIP専用つぶやき</div>
                             <textarea id="vipTweetContent" placeholder="VIPメンバーへのメッセージ..." maxlength="500"></textarea>
+                            <input type="url" id="vipTweetImage" placeholder="画像URL（任意）">
                             <button class="btn btn-primary" onclick="addVipTweet()">🐦 投稿</button>
                         </div>
                         
@@ -644,6 +716,7 @@
                             <div class="card-title">✨ VIP投稿を追加</div>
                             <input type="text" id="vipPostTitle" placeholder="タイトル">
                             <textarea id="vipPostContent" placeholder="VIP限定コンテンツ"></textarea>
+                            <input type="url" id="vipPostImage" placeholder="画像URL（任意）">
                             <button class="btn btn-primary" onclick="addVipPost()">👑 VIP投稿</button>
                         </div>
                     </div>
@@ -653,7 +726,10 @@
             <!-- サイドバー -->
             <aside class="sidebar">
                 <div class="card">
-                    <div class="card-title">📖 サイト概要</div>
+                    <div class="card-title editable-inline">
+                        <span id="sidebarTitle1">📖 サイト概要</span>
+                        <span class="edit-icon admin-only" onclick="editSidebarTitle('sidebarTitle1')">✏️</span>
+                    </div>
                     <div id="siteDescriptionView" class="site-description">読み込み中...</div>
                     <div id="siteDescriptionEdit" class="admin-panel">
                         <textarea id="siteDescriptionInput" style="min-height:150px;"></textarea>
@@ -662,10 +738,14 @@
                 </div>
                 
                 <div class="card">
-                    <div class="card-title">💬 管理者の最新情報</div>
+                    <div class="card-title editable-inline">
+                        <span id="sidebarTitle2">💬 管理者の最新情報</span>
+                        <span class="edit-icon admin-only" onclick="editSidebarTitle('sidebarTitle2')">✏️</span>
+                    </div>
                     
                     <div id="tweetAdminPanel" class="admin-panel">
                         <textarea id="tweetContent" placeholder="つぶやく..." maxlength="280" style="min-height:80px;"></textarea>
+                        <input type="url" id="tweetImage" placeholder="画像URL（任意）">
                         <button class="btn btn-primary" onclick="addTweet()">🐦 投稿</button>
                     </div>
                     
@@ -731,8 +811,58 @@
             <div class="modal-title">✏️ つぶやきを編集</div>
             <input type="hidden" id="editTweetId">
             <textarea id="editTweetContent" maxlength="280"></textarea>
+            <input type="url" id="editTweetImage" placeholder="画像URL（任意）">
             <button class="btn btn-primary" onclick="updateTweet()">💾 更新</button>
             <button class="btn btn-outline" onclick="closeModal('editTweetModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- ブログ編集モーダル -->
+    <div id="editBlogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">✏️ ブログを編集</div>
+            <input type="hidden" id="editBlogId">
+            <input type="text" id="editBlogTitle" placeholder="タイトル">
+            <textarea id="editBlogContent" placeholder="本文" style="min-height:200px;"></textarea>
+            <input type="url" id="editBlogImage" placeholder="画像URL（任意）">
+            <button class="btn btn-primary" onclick="updateBlog()">💾 更新</button>
+            <button class="btn btn-outline" onclick="closeModal('editBlogModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- VIPつぶやき編集モーダル -->
+    <div id="editVipTweetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">✏️ VIPつぶやきを編集</div>
+            <input type="hidden" id="editVipTweetId">
+            <textarea id="editVipTweetContent" maxlength="500"></textarea>
+            <input type="url" id="editVipTweetImage" placeholder="画像URL（任意）">
+            <button class="btn btn-primary" onclick="updateVipTweet()">💾 更新</button>
+            <button class="btn btn-outline" onclick="closeModal('editVipTweetModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- VIP投稿編集モーダル -->
+    <div id="editVipPostModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">✏️ VIP投稿を編集</div>
+            <input type="hidden" id="editVipPostId">
+            <input type="text" id="editVipPostTitle" placeholder="タイトル">
+            <textarea id="editVipPostContent" placeholder="内容"></textarea>
+            <input type="url" id="editVipPostImage" placeholder="画像URL（任意）">
+            <button class="btn btn-primary" onclick="updateVipPost()">💾 更新</button>
+            <button class="btn btn-outline" onclick="closeModal('editVipPostModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- インライン編集モーダル -->
+    <div id="inlineEditModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title" id="inlineEditTitle">✏️ 編集</div>
+            <input type="hidden" id="inlineEditTarget">
+            <input type="text" id="inlineEditInput" placeholder="新しいテキスト">
+            <button class="btn btn-primary" onclick="saveInlineEdit()">💾 保存</button>
+            <button class="btn btn-outline" onclick="closeModal('inlineEditModal')" style="margin-top:0.5rem;">キャンセル</button>
         </div>
     </div>
 
@@ -770,12 +900,17 @@
                 
                 await checkUserRole(user.email);
                 updateBadges();
+                
+                if (isAdmin) {
+                    document.body.classList.add('admin-mode');
+                }
             } else {
                 document.getElementById('userStatus').textContent = '👤 ゲスト';
                 document.getElementById('loginBtn').style.display = 'block';
                 document.getElementById('registerBtn').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'none';
                 document.querySelectorAll('.admin-panel').forEach(el => el.classList.remove('show'));
+                document.body.classList.remove('admin-mode');
                 isAdmin = false;
                 isVipUser = false;
             }
@@ -858,7 +993,7 @@
         window.switchTab = function(tabName) {
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            event.target.classList.add('active');
+            event.target.closest('.nav-tab').classList.add('active');
             document.getElementById(tabName).classList.add('active');
         };
 
@@ -866,8 +1001,78 @@
         window.showModal = (id) => document.getElementById(id).style.display = 'block';
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 
+        // インライン編集
+        window.editSiteName = async function() {
+            const currentValue = document.getElementById('siteName').textContent;
+            document.getElementById('inlineEditTitle').textContent = '✏️ サイト名を編集';
+            document.getElementById('inlineEditTarget').value = 'siteName';
+            document.getElementById('inlineEditInput').value = currentValue;
+            showModal('inlineEditModal');
+        };
+
+        window.editTabName = async function(tabId) {
+            const currentValue = document.getElementById(tabId).textContent;
+            document.getElementById('inlineEditTitle').textContent = '✏️ タブ名を編集';
+            document.getElementById('inlineEditTarget').value = tabId;
+            document.getElementById('inlineEditInput').value = currentValue;
+            showModal('inlineEditModal');
+        };
+
+        window.editSidebarTitle = async function(titleId) {
+            const currentValue = document.getElementById(titleId).textContent;
+            document.getElementById('inlineEditTitle').textContent = '✏️ タイトルを編集';
+            document.getElementById('inlineEditTarget').value = titleId;
+            document.getElementById('inlineEditInput').value = currentValue;
+            showModal('inlineEditModal');
+        };
+
+        window.saveInlineEdit = async function() {
+            const target = document.getElementById('inlineEditTarget').value;
+            const newValue = document.getElementById('inlineEditInput').value;
+            
+            if (!newValue) {
+                alert('⚠️ テキストを入力してください');
+                return;
+            }
+            
+            try {
+                await setDoc(doc(db, 'settings', target), { value: newValue });
+                document.getElementById(target).textContent = newValue;
+                
+                if (target === 'siteName') {
+                    document.getElementById('pageTitle').textContent = newValue;
+                }
+                
+                closeModal('inlineEditModal');
+                alert('✅ 保存しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // サイト設定読み込み
+        async function loadSiteSettings() {
+            const settings = ['siteName', 'tab1Name', 'tab2Name', 'tab3Name', 'sidebarTitle1', 'sidebarTitle2'];
+            
+            for (const setting of settings) {
+                try {
+                    const docRef = doc(db, 'settings', setting);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        document.getElementById(setting).textContent = docSnap.data().value;
+                        if (setting === 'siteName') {
+                            document.getElementById('pageTitle').textContent = docSnap.data().value;
+                        }
+                    }
+                } catch (error) {
+                    console.error(`${setting}の読み込みエラー:`, error);
+                }
+            }
+        }
+
         // 全コンテンツ読み込み
         function loadAllContent() {
+            loadSiteSettings();
             loadVideos();
             loadBlogPosts();
             loadVipContent();
@@ -1027,6 +1232,7 @@
         window.addBlogPost = async function() {
             const title = document.getElementById('blogTitle').value;
             const content = document.getElementById('blogContent').value;
+            const image = document.getElementById('blogImage').value;
             
             if (!title || !content) {
                 alert('⚠️ タイトルと本文を入力してください');
@@ -1035,14 +1241,44 @@
             
             try {
                 await addDoc(collection(db, 'blogPosts'), {
-                    title, content,
+                    title, content, image,
                     timestamp: new Date()
                 });
                 
                 document.getElementById('blogTitle').value = '';
                 document.getElementById('blogContent').value = '';
+                document.getElementById('blogImage').value = '';
                 loadBlogPosts();
                 alert('✅ ブログを投稿しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // ブログ編集モーダルを開く
+        window.showEditBlogModal = function(id, post) {
+            document.getElementById('editBlogId').value = id;
+            document.getElementById('editBlogTitle').value = post.title;
+            document.getElementById('editBlogContent').value = post.content;
+            document.getElementById('editBlogImage').value = post.image || '';
+            showModal('editBlogModal');
+        };
+
+        // ブログ更新
+        window.updateBlog = async function() {
+            const id = document.getElementById('editBlogId').value;
+            const title = document.getElementById('editBlogTitle').value;
+            const content = document.getElementById('editBlogContent').value;
+            const image = document.getElementById('editBlogImage').value;
+            
+            try {
+                await updateDoc(doc(db, 'blogPosts', id), {
+                    title, content, image
+                });
+                
+                closeModal('editBlogModal');
+                loadBlogPosts();
+                alert('✅ 更新しました！');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
@@ -1069,11 +1305,17 @@
                     const postDiv = document.createElement('div');
                     postDiv.className = 'blog-post';
                     postDiv.innerHTML = `
+                        ${isAdmin ? `
+                            <div class="blog-post-actions">
+                                <button class="btn btn-outline btn-small" onclick="showEditBlogModal('${id}', ${JSON.stringify(post).replace(/"/g, '&quot;')})">✏️ 編集</button>
+                                <button class="btn btn-danger btn-small" onclick="deleteBlogPost('${id}')">🗑️ 削除</button>
+                            </div>
+                        ` : ''}
                         <div class="blog-post-title">${post.title}</div>
+                        ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
                         <div class="blog-post-content">${post.content}</div>
                         <div class="blog-post-meta">
                             <div class="video-date">📅 ${new Date(post.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
-                            ${isAdmin ? `<button class="btn btn-danger btn-small" onclick="deleteBlogPost('${id}')">🗑️ 削除</button>` : ''}
                         </div>
                     `;
                     blogList.appendChild(postDiv);
@@ -1098,13 +1340,15 @@
         // つぶやき追加
         window.addTweet = async function() {
             const content = document.getElementById('tweetContent').value;
+            const image = document.getElementById('tweetImage').value;
             if (!content) {
                 alert('⚠️ 内容を入力してください');
                 return;
             }
             try {
-                await addDoc(collection(db, 'tweets'), { content, timestamp: new Date() });
+                await addDoc(collection(db, 'tweets'), { content, image, timestamp: new Date() });
                 document.getElementById('tweetContent').value = '';
+                document.getElementById('tweetImage').value = '';
                 loadTweets();
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
@@ -1112,9 +1356,10 @@
         };
 
         // つぶやき編集モーダルを開く
-        window.showEditTweetModal = function(id, content) {
+        window.showEditTweetModal = function(id, tweet) {
             document.getElementById('editTweetId').value = id;
-            document.getElementById('editTweetContent').value = content;
+            document.getElementById('editTweetContent').value = tweet.content;
+            document.getElementById('editTweetImage').value = tweet.image || '';
             showModal('editTweetModal');
         };
 
@@ -1122,9 +1367,10 @@
         window.updateTweet = async function() {
             const id = document.getElementById('editTweetId').value;
             const content = document.getElementById('editTweetContent').value;
+            const image = document.getElementById('editTweetImage').value;
             
             try {
-                await updateDoc(doc(db, 'tweets', id), { content });
+                await updateDoc(doc(db, 'tweets', id), { content, image });
                 closeModal('editTweetModal');
                 loadTweets();
                 alert('✅ 更新しました！');
@@ -1167,11 +1413,12 @@
                     tweetDiv.innerHTML = `
                         ${isAdmin ? `
                             <div class="tweet-actions">
-                                <button class="btn btn-outline btn-small" onclick="showEditTweetModal('${id}', \`${tweet.content.replace(/`/g, '\\`')}\`)">✏️</button>
+                                <button class="btn btn-outline btn-small" onclick="showEditTweetModal('${id}', ${JSON.stringify(tweet).replace(/"/g, '&quot;')})">✏️</button>
                                 <button class="btn btn-danger btn-small" onclick="deleteTweet('${id}')">🗑️</button>
                             </div>
                         ` : ''}
                         <div class="tweet-content">${tweet.content}</div>
+                        ${tweet.image ? `<img src="${tweet.image}" class="post-image" alt="つぶやき画像">` : ''}
                         <div class="tweet-date">📅 ${new Date(tweet.timestamp.toDate()).toLocaleString('ja-JP', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</div>
                     `;
                     tweetList.appendChild(tweetDiv);
@@ -1240,10 +1487,18 @@
                 } else {
                     tweetsSnapshot.forEach(docSnap => {
                         const tweet = docSnap.data();
+                        const id = docSnap.id;
                         const tweetDiv = document.createElement('div');
                         tweetDiv.className = 'tweet';
                         tweetDiv.innerHTML = `
+                            ${isAdmin ? `
+                                <div class="tweet-actions">
+                                    <button class="btn btn-outline btn-small" onclick="showEditVipTweetModal('${id}', ${JSON.stringify(tweet).replace(/"/g, '&quot;')})">✏️</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteVipTweet('${id}')">🗑️</button>
+                                </div>
+                            ` : ''}
                             <div class="tweet-content">${tweet.content}</div>
+                            ${tweet.image ? `<img src="${tweet.image}" class="post-image" alt="VIP画像">` : ''}
                             <div class="tweet-date">📅 ${new Date(tweet.timestamp.toDate()).toLocaleString('ja-JP')}</div>
                         `;
                         tweetsCard.appendChild(tweetDiv);
@@ -1254,10 +1509,18 @@
                 if (!postsSnapshot.empty) {
                     postsSnapshot.forEach(docSnap => {
                         const post = docSnap.data();
+                        const id = docSnap.id;
                         const postDiv = document.createElement('div');
                         postDiv.className = 'vip-post';
                         postDiv.innerHTML = `
+                            ${isAdmin ? `
+                                <div class="vip-post-actions">
+                                    <button class="btn btn-outline btn-small" onclick="showEditVipPostModal('${id}', ${JSON.stringify(post).replace(/"/g, '&quot;')})">✏️ 編集</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteVipPost('${id}')">🗑️ 削除</button>
+                                </div>
+                            ` : ''}
                             <div class="vip-post-title">👑 ${post.title}</div>
+                            ${post.image ? `<img src="${post.image}" class="post-image" alt="${post.title}">` : ''}
                             <div class="vip-post-content">${post.content}</div>
                             <div class="tweet-date">📅 ${new Date(post.timestamp.toDate()).toLocaleString('ja-JP')}</div>
                         `;
@@ -1272,15 +1535,53 @@
         // VIPつぶやき追加
         window.addVipTweet = async function() {
             const content = document.getElementById('vipTweetContent').value;
+            const image = document.getElementById('vipTweetImage').value;
             if (!content) {
                 alert('⚠️ 内容を入力してください');
                 return;
             }
             try {
-                await addDoc(collection(db, 'vipTweets'), { content, timestamp: new Date() });
+                await addDoc(collection(db, 'vipTweets'), { content, image, timestamp: new Date() });
                 document.getElementById('vipTweetContent').value = '';
+                document.getElementById('vipTweetImage').value = '';
                 loadVipContent();
                 alert('✅ VIP投稿しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // VIPつぶやき編集モーダルを開く
+        window.showEditVipTweetModal = function(id, tweet) {
+            document.getElementById('editVipTweetId').value = id;
+            document.getElementById('editVipTweetContent').value = tweet.content;
+            document.getElementById('editVipTweetImage').value = tweet.image || '';
+            showModal('editVipTweetModal');
+        };
+
+        // VIPつぶやき更新
+        window.updateVipTweet = async function() {
+            const id = document.getElementById('editVipTweetId').value;
+            const content = document.getElementById('editVipTweetContent').value;
+            const image = document.getElementById('editVipTweetImage').value;
+            
+            try {
+                await updateDoc(doc(db, 'vipTweets', id), { content, image });
+                closeModal('editVipTweetModal');
+                loadVipContent();
+                alert('✅ 更新しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // VIPつぶやき削除
+        window.deleteVipTweet = async function(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            try {
+                await deleteDoc(doc(db, 'vipTweets', id));
+                loadVipContent();
+                alert('✅ 削除しました');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
@@ -1290,16 +1591,56 @@
         window.addVipPost = async function() {
             const title = document.getElementById('vipPostTitle').value;
             const content = document.getElementById('vipPostContent').value;
+            const image = document.getElementById('vipPostImage').value;
             if (!title || !content) {
                 alert('⚠️ タイトルと内容を入力してください');
                 return;
             }
             try {
-                await addDoc(collection(db, 'vipPosts'), { title, content, timestamp: new Date() });
+                await addDoc(collection(db, 'vipPosts'), { title, content, image, timestamp: new Date() });
                 document.getElementById('vipPostTitle').value = '';
                 document.getElementById('vipPostContent').value = '';
+                document.getElementById('vipPostImage').value = '';
                 loadVipContent();
                 alert('✅ VIP投稿を追加しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // VIP投稿編集モーダルを開く
+        window.showEditVipPostModal = function(id, post) {
+            document.getElementById('editVipPostId').value = id;
+            document.getElementById('editVipPostTitle').value = post.title;
+            document.getElementById('editVipPostContent').value = post.content;
+            document.getElementById('editVipPostImage').value = post.image || '';
+            showModal('editVipPostModal');
+        };
+
+        // VIP投稿更新
+        window.updateVipPost = async function() {
+            const id = document.getElementById('editVipPostId').value;
+            const title = document.getElementById('editVipPostTitle').value;
+            const content = document.getElementById('editVipPostContent').value;
+            const image = document.getElementById('editVipPostImage').value;
+            
+            try {
+                await updateDoc(doc(db, 'vipPosts', id), { title, content, image });
+                closeModal('editVipPostModal');
+                loadVipContent();
+                alert('✅ 更新しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // VIP投稿削除
+        window.deleteVipPost = async function(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            try {
+                await deleteDoc(doc(db, 'vipPosts', id));
+                loadVipContent();
+                alert('✅ 削除しました');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
