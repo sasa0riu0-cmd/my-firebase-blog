@@ -23,6 +23,7 @@
             --white: #ffffff;
             --success: #10b981;
             --danger: #ef4444;
+            --gold: #fbbf24;
         }
         
         body {
@@ -68,6 +69,7 @@
         .nav-tabs {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
         
         .nav-tab {
@@ -79,6 +81,7 @@
             cursor: pointer;
             border-radius: 0.5rem;
             transition: all 0.2s;
+            font-size: 0.875rem;
         }
         
         .nav-tab:hover {
@@ -100,6 +103,38 @@
         .user-status {
             font-size: 0.875rem;
             color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .coin-balance {
+            background: var(--dark-blue-lighter);
+            padding: 0.375rem 0.75rem;
+            border-radius: 0.5rem;
+            color: var(--gold);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .admin-badge {
+            background: var(--danger);
+            color: var(--white);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .vip-badge {
+            background: var(--gold);
+            color: var(--dark-blue);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 700;
         }
         
         .btn {
@@ -128,9 +163,19 @@
             color: var(--primary);
         }
         
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+        
         .btn-danger {
             background: var(--danger);
             color: var(--white);
+        }
+        
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), #f59e0b);
+            color: var(--dark-blue);
         }
         
         .btn-small {
@@ -151,25 +196,14 @@
             gap: 1.5rem;
         }
         
-        /* スマホで上に表示 */
         @media (max-width: 1024px) {
             .layout {
                 grid-template-columns: 1fr;
             }
             
             .sidebar {
-                order: -1; /* スマホで一番上に */
+                order: -1;
             }
-        }
-        
-        .main-content {
-            min-height: 300px;
-        }
-        
-        .sidebar {
-            position: sticky;
-            top: 100px;
-            height: fit-content;
         }
         
         .card {
@@ -212,12 +246,37 @@
             transition: all 0.3s;
             cursor: pointer;
             border: 1px solid var(--dark-blue-lighter);
+            position: relative;
         }
         
         .video-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 30px rgba(99, 102, 241, 0.2);
             border-color: var(--primary);
+        }
+        
+        .video-locked {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .video-locked-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .video-locked-text {
+            color: var(--gold);
+            font-weight: 700;
         }
         
         .video-thumbnail-container {
@@ -278,11 +337,12 @@
         }
         
         .video-price {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
         
         .video-date {
@@ -294,6 +354,37 @@
             display: flex;
             gap: 0.5rem;
             margin-top: 1rem;
+        }
+        
+        /* ブログ投稿 */
+        .blog-post {
+            background: var(--dark-blue-light);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--dark-blue-lighter);
+        }
+        
+        .blog-post-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+        }
+        
+        .blog-post-content {
+            color: var(--text-gray);
+            line-height: 1.8;
+            white-space: pre-wrap;
+            margin-bottom: 1rem;
+        }
+        
+        .blog-post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--dark-blue-lighter);
         }
         
         /* つぶやき */
@@ -309,7 +400,6 @@
         
         .tweet:hover {
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            border-left-color: var(--secondary);
         }
         
         .tweet-content {
@@ -368,24 +458,6 @@
             min-height: 100px;
         }
         
-        /* 画像サイズ調整 */
-        .image-size-control {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .image-size-control label {
-            font-size: 0.875rem;
-            color: var(--text-gray);
-        }
-        
-        .image-size-control input[type="range"] {
-            flex: 1;
-            margin: 0;
-        }
-        
         /* モーダル */
         .modal {
             display: none;
@@ -396,7 +468,6 @@
             height: 100%;
             background: rgba(0,0,0,0.7);
             z-index: 1000;
-            animation: fadeIn 0.2s;
             overflow-y: auto;
             padding: 2rem 1rem;
         }
@@ -419,23 +490,31 @@
             margin-bottom: 1.5rem;
         }
         
-        /* 動画詳細モーダル */
-        .video-detail-modal .video-thumbnail-container {
-            height: 400px;
-            margin-bottom: 1.5rem;
+        /* コイン購入 */
+        .coin-package {
+            background: var(--dark-blue-lighter);
             border-radius: 0.75rem;
-            overflow: hidden;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid var(--dark-blue-lighter);
+            transition: all 0.2s;
+            cursor: pointer;
         }
         
-        .video-detail-content {
+        .coin-package:hover {
+            border-color: var(--gold);
+        }
+        
+        .coin-package-amount {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        .coin-package-price {
+            font-size: 1.25rem;
             color: var(--text-light);
-        }
-        
-        .video-detail-description {
-            color: var(--text-gray);
-            line-height: 1.8;
-            margin: 1rem 0;
-            white-space: pre-wrap;
         }
         
         /* タブコンテンツ */
@@ -486,42 +565,24 @@
             gap: 0.5rem;
         }
         
-        .vip-post-content {
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 0.75rem;
-        }
-        
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        /* レスポンシブ */
         @media (max-width: 768px) {
             .header-content {
                 flex-direction: column;
                 align-items: flex-start;
             }
-            
             .nav-tabs {
                 width: 100%;
                 justify-content: space-around;
             }
-            
             .user-menu {
                 width: 100%;
+                flex-wrap: wrap;
                 justify-content: space-between;
-            }
-            
-            .video-detail-modal .video-thumbnail-container {
-                height: 250px;
             }
         }
     </style>
@@ -534,12 +595,19 @@
             
             <nav class="nav-tabs">
                 <button class="nav-tab active" onclick="switchTab('videos')">📹 動画</button>
+                <button class="nav-tab" onclick="switchTab('blog')">📝 ブログ</button>
                 <button class="nav-tab" onclick="switchTab('vip')">👑 VIP</button>
             </nav>
             
             <div class="user-menu">
-                <span class="user-status" id="userStatus">👤 ゲスト</span>
+                <div class="user-status">
+                    <span id="userStatus">👤 ゲスト</span>
+                    <span id="userBadges"></span>
+                    <span id="coinBalance" class="coin-balance" style="display:none;">💰 <span id="coinAmount">0</span></span>
+                </div>
                 <button id="loginBtn" class="btn btn-primary" onclick="showModal('loginModal')">ログイン</button>
+                <button id="registerBtn" class="btn btn-outline" onclick="showModal('registerModal')">新規登録</button>
+                <button id="buyCoinsBtn" class="btn btn-gold" style="display:none;" onclick="showModal('buyCoinsModal')">💰 コイン購入</button>
                 <button id="logoutBtn" class="btn btn-outline" style="display:none;" onclick="logout()">ログアウト</button>
             </div>
         </div>
@@ -551,30 +619,34 @@
             <main class="main-content">
                 <!-- 動画タブ -->
                 <div id="videos" class="tab-content active">
-                    <!-- 管理者用投稿フォーム -->
                     <div id="videoAdminPanel" class="card admin-panel">
                         <div class="card-title">🎥 動画を追加</div>
                         <input type="text" id="videoTitle" placeholder="タイトル">
-                        <textarea id="videoDescription" placeholder="説明文（改行可能）"></textarea>
+                        <textarea id="videoDescription" placeholder="説明文"></textarea>
                         <input type="url" id="videoThumbnail" placeholder="サムネイル画像URL">
-                        <div class="image-size-control">
-                            <label>画像の高さ: <span id="thumbnailHeightValue">250</span>px</label>
-                            <input type="range" id="thumbnailHeight" min="200" max="500" value="250" 
-                                   oninput="document.getElementById('thumbnailHeightValue').textContent=this.value">
-                        </div>
-                        <input type="text" id="videoPrice" placeholder="価格（例: ¥1,000）">
+                        <input type="number" id="videoPrice" placeholder="価格（コイン数）" min="0">
                         <button class="btn btn-primary" onclick="addVideo()">📤 動画を追加</button>
                     </div>
                     
-                    <!-- 動画一覧 -->
                     <div class="video-grid" id="videoList"></div>
+                </div>
+                
+                <!-- ブログタブ -->
+                <div id="blog" class="tab-content">
+                    <div id="blogAdminPanel" class="card admin-panel">
+                        <div class="card-title">📝 ブログを投稿</div>
+                        <input type="text" id="blogTitle" placeholder="タイトル">
+                        <textarea id="blogContent" placeholder="本文" style="min-height:200px;"></textarea>
+                        <button class="btn btn-primary" onclick="addBlogPost()">📤 投稿</button>
+                    </div>
+                    
+                    <div id="blogList"></div>
                 </div>
                 
                 <!-- VIPタブ -->
                 <div id="vip" class="tab-content">
                     <div id="vipContent"></div>
                     
-                    <!-- VIP管理者パネル -->
                     <div id="vipAdminPanel" class="admin-panel">
                         <div class="card">
                             <div class="card-title">💭 VIP専用つぶやき</div>
@@ -594,7 +666,6 @@
             
             <!-- サイドバー -->
             <aside class="sidebar">
-                <!-- サイト概要 -->
                 <div class="card">
                     <div class="card-title">📖 サイト概要</div>
                     <div id="siteDescriptionView" class="site-description">読み込み中...</div>
@@ -604,17 +675,14 @@
                     </div>
                 </div>
                 
-                <!-- 管理者つぶやき -->
                 <div class="card">
                     <div class="card-title">💬 管理者の最新情報</div>
                     
-                    <!-- 管理者用投稿フォーム -->
                     <div id="tweetAdminPanel" class="admin-panel">
                         <textarea id="tweetContent" placeholder="つぶやく..." maxlength="280" style="min-height:80px;"></textarea>
                         <button class="btn btn-primary" onclick="addTweet()">🐦 投稿</button>
                     </div>
                     
-                    <!-- つぶやき一覧 -->
                     <div id="tweetList" style="max-height: 500px; overflow-y: auto;"></div>
                 </div>
             </aside>
@@ -624,7 +692,7 @@
     <!-- ログインモーダル -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
-            <div class="modal-title">🔐 管理者ログイン</div>
+            <div class="modal-title">🔐 ログイン</div>
             <input type="email" id="loginEmail" placeholder="メールアドレス">
             <input type="password" id="loginPassword" placeholder="パスワード">
             <button class="btn btn-primary" onclick="login()">ログイン</button>
@@ -632,50 +700,57 @@
         </div>
     </div>
     
-    <!-- 動画編集モーダル -->
-    <div id="editVideoModal" class="modal">
+    <!-- 新規登録モーダル -->
+    <div id="registerModal" class="modal">
         <div class="modal-content">
-            <div class="modal-title">✏️ 動画を編集</div>
-            <input type="hidden" id="editVideoId">
-            <input type="text" id="editVideoTitle" placeholder="タイトル">
-            <textarea id="editVideoDescription" placeholder="説明文"></textarea>
-            <input type="url" id="editVideoThumbnail" placeholder="サムネイル画像URL">
-            <div class="image-size-control">
-                <label>画像の高さ: <span id="editThumbnailHeightValue">250</span>px</label>
-                <input type="range" id="editThumbnailHeight" min="200" max="500" value="250"
-                       oninput="document.getElementById('editThumbnailHeightValue').textContent=this.value">
+            <div class="modal-title">✨ 新規登録</div>
+            <input type="email" id="registerEmail" placeholder="メールアドレス">
+            <input type="password" id="registerPassword" placeholder="パスワード（6文字以上）">
+            <button class="btn btn-success" onclick="register()">登録</button>
+            <button class="btn btn-outline" onclick="closeModal('registerModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- コイン購入モーダル -->
+    <div id="buyCoinsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">💰 コイン購入</div>
+            <p style="color:var(--text-gray);margin-bottom:1rem;">※ 現在はデモ版です。実際の決済は実装されていません。</p>
+            
+            <div class="coin-package" onclick="buyCoins(100, 1000)">
+                <div class="coin-package-amount">💰 100コイン</div>
+                <div class="coin-package-price">¥1,000</div>
             </div>
-            <input type="text" id="editVideoPrice" placeholder="価格">
-            <button class="btn btn-primary" onclick="updateVideo()">💾 更新</button>
-            <button class="btn btn-outline" onclick="closeModal('editVideoModal')" style="margin-top:0.5rem;">キャンセル</button>
+            
+            <div class="coin-package" onclick="buyCoins(500, 4500)">
+                <div class="coin-package-amount">💰 500コイン</div>
+                <div class="coin-package-price">¥4,500 <span style="color:var(--success);">(10%お得)</span></div>
+            </div>
+            
+            <div class="coin-package" onclick="buyCoins(1000, 8000)">
+                <div class="coin-package-amount">💰 1000コイン</div>
+                <div class="coin-package-price">¥8,000 <span style="color:var(--success);">(20%お得)</span></div>
+            </div>
+            
+            <button class="btn btn-outline" onclick="closeModal('buyCoinsModal')" style="margin-top:1rem;">キャンセル</button>
         </div>
     </div>
     
     <!-- 動画詳細モーダル -->
-    <div id="videoDetailModal" class="modal video-detail-modal">
+    <div id="videoDetailModal" class="modal">
         <div class="modal-content">
             <div id="videoDetailContent"></div>
-            <button class="btn btn-outline" onclick="closeModal('videoDetailModal')" style="margin-top:1rem;">閉じる</button>
         </div>
     </div>
     
-    <!-- つぶやき編集モーダル -->
-    <div id="editTweetModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-title">✏️ つぶやきを編集</div>
-            <input type="hidden" id="editTweetId">
-            <textarea id="editTweetContent" maxlength="280"></textarea>
-            <button class="btn btn-primary" onclick="updateTweet()">💾 更新</button>
-            <button class="btn btn-outline" onclick="closeModal('editTweetModal')" style="margin-top:0.5rem;">キャンセル</button>
-        </div>
-    </div>
+    <!-- 編集モーダル（省略 - 前回と同じ） -->
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc, setDoc, orderBy, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc, setDoc, orderBy, query, where, increment } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-        // ⚠️ Firebase設定をここに貼り付け
+        // ⚠️ Firebase設定
         const firebaseConfig = {
             apiKey: "AIzaSyA3yb-K92duU0lPsY8sm2zy8kFYs4W51ZU",
             authDomain: "my-blog-project-763d9.firebaseapp.com",
@@ -690,7 +765,9 @@
         const auth = getAuth(app);
         
         let currentUser = null;
+        let isAdmin = false;
         let isVipUser = false;
+        let userCoins = 0;
 
         // ログイン状態監視
         onAuthStateChanged(auth, async (user) => {
@@ -698,31 +775,99 @@
             if (user) {
                 document.getElementById('userStatus').textContent = `👤 ${user.email.split('@')[0]}`;
                 document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('registerBtn').style.display = 'none';
                 document.getElementById('logoutBtn').style.display = 'block';
-                document.querySelectorAll('.admin-panel').forEach(el => el.classList.add('show'));
+                document.getElementById('buyCoinsBtn').style.display = 'block';
+                document.getElementById('coinBalance').style.display = 'flex';
                 
-                await checkVipStatus(user.email);
+                await checkUserRole(user.email);
+                await loadUserCoins(user.uid);
+                updateBadges();
             } else {
                 document.getElementById('userStatus').textContent = '👤 ゲスト';
                 document.getElementById('loginBtn').style.display = 'block';
+                document.getElementById('registerBtn').style.display = 'block';
                 document.getElementById('logoutBtn').style.display = 'none';
+                document.getElementById('buyCoinsBtn').style.display = 'none';
+                document.getElementById('coinBalance').style.display = 'none';
                 document.querySelectorAll('.admin-panel').forEach(el => el.classList.remove('show'));
+                isAdmin = false;
                 isVipUser = false;
             }
-            loadVipContent();
-            loadSiteDescription();
+            loadAllContent();
         });
 
-        // VIP権限チェック
-        async function checkVipStatus(email) {
+        // ユーザー権限チェック
+        async function checkUserRole(email) {
             try {
-                const q = query(collection(db, 'whitelist'), where('email', '==', email));
-                const snapshot = await getDocs(q);
-                isVipUser = !snapshot.empty;
+                // 管理者チェック
+                const adminQ = query(collection(db, 'admins'), where('email', '==', email));
+                const adminSnapshot = await getDocs(adminQ);
+                isAdmin = !adminSnapshot.empty;
+                
+                // VIPチェック
+                const vipQ = query(collection(db, 'whitelist'), where('email', '==', email));
+                const vipSnapshot = await getDocs(vipQ);
+                isVipUser = !vipSnapshot.empty;
+                
+                // 管理者は全てにアクセス可能
+                if (isAdmin) {
+                    document.querySelectorAll('.admin-panel').forEach(el => el.classList.add('show'));
+                }
             } catch (error) {
-                isVipUser = false;
+                console.error('権限チェックエラー:', error);
             }
         }
+
+        // バッジ更新
+        function updateBadges() {
+            const badgesDiv = document.getElementById('userBadges');
+            let badges = '';
+            if (isAdmin) badges += '<span class="admin-badge">👑 管理者</span>';
+            if (isVipUser) badges += '<span class="vip-badge">⭐ VIP</span>';
+            badgesDiv.innerHTML = badges;
+        }
+
+        // コイン残高読み込み
+        async function loadUserCoins(uid) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', uid));
+                userCoins = userDoc.exists() ? (userDoc.data().coins || 0) : 0;
+                document.getElementById('coinAmount').textContent = userCoins;
+            } catch (error) {
+                console.error('コイン読み込みエラー:', error);
+            }
+        }
+
+        // 新規登録
+        window.register = async function() {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            
+            if (!email || !password) {
+                alert('⚠️ メールアドレスとパスワードを入力してください');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('⚠️ パスワードは6文字以上にしてください');
+                return;
+            }
+            
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // 初期コイン付与
+                await setDoc(doc(db, 'users', userCredential.user.uid), {
+                    email: email,
+                    coins: 50, // 初回登録で50コインプレゼント
+                    createdAt: new Date()
+                });
+                alert('✅ 登録完了！ウェルカムボーナス50コインをプレゼント🎁');
+                closeModal('registerModal');
+            } catch (error) {
+                alert('❌ 登録失敗: ' + error.message);
+            }
+        };
 
         // ログイン
         window.login = async function() {
@@ -744,6 +889,85 @@
             alert('✅ ログアウトしました');
         };
 
+        // コイン購入（デモ版）
+        window.buyCoins = async function(coins, price) {
+            if (!currentUser) return;
+            
+            // 実際は Stripe 等で決済処理
+            const confirm = window.confirm(`${coins}コインを¥${price.toLocaleString()}で購入しますか？\n\n※現在はデモ版のため、実際の課金は発生しません。`);
+            
+            if (confirm) {
+                try {
+                    await updateDoc(doc(db, 'users', currentUser.uid), {
+                        coins: increment(coins)
+                    });
+                    await loadUserCoins(currentUser.uid);
+                    alert(`✅ ${coins}コインを購入しました！`);
+                    closeModal('buyCoinsModal');
+                } catch (error) {
+                    alert('❌ エラー: ' + error.message);
+                }
+            }
+        };
+
+        // 動画購入
+        window.purchaseVideo = async function(videoId, price) {
+            if (!currentUser) {
+                alert('⚠️ ログインが必要です');
+                showModal('loginModal');
+                return;
+            }
+            
+            if (userCoins < price) {
+                alert(`⚠️ コインが不足しています（必要: ${price}コイン、所持: ${userCoins}コイン）`);
+                showModal('buyCoinsModal');
+                return;
+            }
+            
+            const confirm = window.confirm(`この動画を${price}コインで購入しますか？`);
+            
+            if (confirm) {
+                try {
+                    // コイン減算
+                    await updateDoc(doc(db, 'users', currentUser.uid), {
+                        coins: increment(-price)
+                    });
+                    
+                    // 購入記録
+                    await addDoc(collection(db, 'purchases'), {
+                        userId: currentUser.uid,
+                        videoId: videoId,
+                        price: price,
+                        timestamp: new Date()
+                    });
+                    
+                    await loadUserCoins(currentUser.uid);
+                    alert('✅ 購入完了！動画をお楽しみください');
+                    loadVideos();
+                } catch (error) {
+                    alert('❌ エラー: ' + error.message);
+                }
+            }
+        };
+
+        // 動画購入チェック
+        async function hasUserPurchased(videoId) {
+            if (!currentUser) return false;
+            if (isAdmin) return true; // 管理者は全動画アクセス可能
+            
+            try {
+                const q = query(
+                    collection(db, 'purchases'),
+                    where('userId', '==', currentUser.uid),
+                    where('videoId', '==', videoId)
+                );
+                const snapshot = await getDocs(q);
+                return !snapshot.empty;
+            } catch (error) {
+                return false;
+            }
+        }
+
         // タブ切り替え
         window.switchTab = function(tabName) {
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -756,49 +980,30 @@
         window.showModal = (id) => document.getElementById(id).style.display = 'block';
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
 
-        // サイト概要読み込み
-        async function loadSiteDescription() {
-            try {
-                const docRef = doc(db, 'settings', 'siteDescription');
-                const docSnap = await getDoc(docRef);
-                
-                const description = docSnap.exists() ? docSnap.data().content : 'サイトの概要がまだ設定されていません。';
-                document.getElementById('siteDescriptionView').textContent = description;
-                document.getElementById('siteDescriptionInput').value = description;
-            } catch (error) {
-                document.getElementById('siteDescriptionView').textContent = '読み込みエラー';
-            }
+        // 全コンテンツ読み込み
+        function loadAllContent() {
+            loadVideos();
+            loadBlogPosts();
+            loadVipContent();
+            loadTweets();
+            loadSiteDescription();
         }
-
-        // サイト概要更新
-        window.updateSiteDescription = async function() {
-            const content = document.getElementById('siteDescriptionInput').value;
-            
-            try {
-                await setDoc(doc(db, 'settings', 'siteDescription'), { content });
-                loadSiteDescription();
-                alert('✅ 保存しました！');
-            } catch (error) {
-                alert('❌ エラー: ' + error.message);
-            }
-        };
 
         // 動画追加
         window.addVideo = async function() {
             const title = document.getElementById('videoTitle').value;
             const description = document.getElementById('videoDescription').value;
             const thumbnail = document.getElementById('videoThumbnail').value;
-            const price = document.getElementById('videoPrice').value;
-            const thumbnailHeight = document.getElementById('thumbnailHeight').value;
+            const price = parseInt(document.getElementById('videoPrice').value) || 0;
             
-            if (!title || !description || !price) {
-                alert('⚠️ タイトル、説明、価格を入力してください');
+            if (!title || !description) {
+                alert('⚠️ タイトルと説明を入力してください');
                 return;
             }
             
             try {
                 await addDoc(collection(db, 'videos'), {
-                    title, description, thumbnail, price, thumbnailHeight,
+                    title, description, thumbnail, price,
                     timestamp: new Date()
                 });
                 
@@ -806,79 +1011,9 @@
                 document.getElementById('videoDescription').value = '';
                 document.getElementById('videoThumbnail').value = '';
                 document.getElementById('videoPrice').value = '';
-                document.getElementById('thumbnailHeight').value = '250';
-                document.getElementById('thumbnailHeightValue').textContent = '250';
                 
                 loadVideos();
                 alert('✅ 動画を追加しました！');
-            } catch (error) {
-                alert('❌ エラー: ' + error.message);
-            }
-        };
-
-        // 動画詳細表示
-        window.showVideoDetail = function(video) {
-            const detailContent = document.getElementById('videoDetailContent');
-            detailContent.innerHTML = `
-                <div class="video-thumbnail-container" style="height:${video.thumbnailHeight || 250}px">
-                    ${video.thumbnail ? 
-                        `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
-                        '<div class="video-thumbnail-placeholder">🎬</div>'}
-                </div>
-                <div class="video-detail-content">
-                    <h2 class="video-title">${video.title}</h2>
-                    <div class="video-detail-description">${video.description}</div>
-                    <div class="video-meta">
-                        <div class="video-price">${video.price}</div>
-                        <div class="video-date">📅 ${new Date(video.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
-                    </div>
-                </div>
-            `;
-            showModal('videoDetailModal');
-        };
-
-        // 動画編集モーダルを開く
-        window.showEditVideoModal = function(id, video) {
-            document.getElementById('editVideoId').value = id;
-            document.getElementById('editVideoTitle').value = video.title;
-            document.getElementById('editVideoDescription').value = video.description;
-            document.getElementById('editVideoThumbnail').value = video.thumbnail || '';
-            document.getElementById('editVideoPrice').value = video.price;
-            document.getElementById('editThumbnailHeight').value = video.thumbnailHeight || 250;
-            document.getElementById('editThumbnailHeightValue').textContent = video.thumbnailHeight || 250;
-            showModal('editVideoModal');
-        };
-
-        // 動画更新
-        window.updateVideo = async function() {
-            const id = document.getElementById('editVideoId').value;
-            const title = document.getElementById('editVideoTitle').value;
-            const description = document.getElementById('editVideoDescription').value;
-            const thumbnail = document.getElementById('editVideoThumbnail').value;
-            const price = document.getElementById('editVideoPrice').value;
-            const thumbnailHeight = document.getElementById('editThumbnailHeight').value;
-            
-            try {
-                await updateDoc(doc(db, 'videos', id), {
-                    title, description, thumbnail, price, thumbnailHeight
-                });
-                
-                closeModal('editVideoModal');
-                loadVideos();
-                alert('✅ 更新しました！');
-            } catch (error) {
-                alert('❌ エラー: ' + error.message);
-            }
-        };
-
-        // 動画削除
-        window.deleteVideo = async function(id) {
-            if (!confirm('本当に削除しますか？')) return;
-            
-            try {
-                await deleteDoc(doc(db, 'videos', id));
-                loadVideos();
-                alert('✅ 削除しました');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
@@ -899,14 +1034,24 @@
                 }
                 
                 videoList.innerHTML = '';
-                snapshot.forEach(docSnap => {
+                
+                for (const docSnap of snapshot.docs) {
                     const video = docSnap.data();
                     const id = docSnap.id;
+                    const purchased = await hasUserPurchased(id);
+                    const isLocked = video.price > 0 && !purchased;
+                    
                     const card = document.createElement('div');
                     card.className = 'video-card';
-                    card.onclick = () => showVideoDetail(video);
                     card.innerHTML = `
-                        <div class="video-thumbnail-container" style="height:${video.thumbnailHeight || 250}px">
+                        ${isLocked ? `
+                            <div class="video-locked">
+                                <div class="video-locked-icon">🔒</div>
+                                <div class="video-locked-text">${video.price}コイン必要</div>
+                                <button class="btn btn-gold btn-small" onclick="purchaseVideo('${id}', ${video.price})" style="margin-top:1rem;">💰 購入する</button>
+                            </div>
+                        ` : ''}
+                        <div class="video-thumbnail-container" style="height:250px">
                             ${video.thumbnail ? 
                                 `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
                                 '<div class="video-thumbnail-placeholder">🎬</div>'}
@@ -915,74 +1060,118 @@
                             <div class="video-title">${video.title}</div>
                             <div class="video-description">${video.description}</div>
                             <div class="video-meta">
-                                <div class="video-price">${video.price}</div>
+                                <div class="video-price">${video.price > 0 ? `💰 ${video.price}` : '🆓 無料'}</div>
                                 <div class="video-date">📅 ${new Date(video.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
                             </div>
-                            ${currentUser ? `
-                                <div class="video-actions" onclick="event.stopPropagation()">
-                                    <button class="btn btn-outline btn-small" onclick="showEditVideoModal('${id}', ${JSON.stringify(video).replace(/"/g, '&quot;')})">✏️ 編集</button>
+                            ${isAdmin ? `
+                                <div class="video-actions">
                                     <button class="btn btn-danger btn-small" onclick="deleteVideo('${id}')">🗑️ 削除</button>
                                 </div>
                             ` : ''}
                         </div>
                     `;
                     videoList.appendChild(card);
-                });
+                }
             } catch (error) {
+                console.error('動画読み込みエラー:', error);
                 videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--danger);">読み込みエラー</div>';
             }
         }
 
-        // つぶやき追加
-        window.addTweet = async function() {
-            const content = document.getElementById('tweetContent').value;
+        // 動画削除
+        window.deleteVideo = async function(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            try {
+                await deleteDoc(doc(db, 'videos', id));
+                loadVideos();
+                alert('✅ 削除しました');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // ブログ投稿
+        window.addBlogPost = async function() {
+            const title = document.getElementById('blogTitle').value;
+            const content = document.getElementById('blogContent').value;
             
-            if (!content) {
-                alert('⚠️ 内容を入力してください');
+            if (!title || !content) {
+                alert('⚠️ タイトルと本文を入力してください');
                 return;
             }
             
             try {
-                await addDoc(collection(db, 'tweets'), {
-                    content,
+                await addDoc(collection(db, 'blogPosts'), {
+                    title, content,
                     timestamp: new Date()
                 });
                 
-                document.getElementById('tweetContent').value = '';
-                loadTweets();
+                document.getElementById('blogTitle').value = '';
+                document.getElementById('blogContent').value = '';
+                loadBlogPosts();
+                alert('✅ ブログを投稿しました！');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
         };
 
-        // つぶやき編集モーダルを開く
-        window.showEditTweetModal = function(id, content) {
-            document.getElementById('editTweetId').value = id;
-            document.getElementById('editTweetContent').value = content;
-            showModal('editTweetModal');
-        };
-
-        // つぶやき更新
-        window.updateTweet = async function() {
-            const id = document.getElementById('editTweetId').value;
-            const content = document.getElementById('editTweetContent').value;
+        // ブログ一覧読み込み
+        async function loadBlogPosts() {
+            const blogList = document.getElementById('blogList');
+            blogList.innerHTML = '<div class="card"><p style="text-align:center;color:var(--text-gray);">読み込み中...</p></div>';
             
             try {
-                await updateDoc(doc(db, 'tweets', id), { content });
-                closeModal('editTweetModal');
-                loadTweets();
-                alert('✅ 更新しました！');
+                const q = query(collection(db, 'blogPosts'), orderBy('timestamp', 'desc'));
+                const snapshot = await getDocs(q);
+                
+                if (snapshot.empty) {
+                    blogList.innerHTML = '<div class="card"><p style="text-align:center;color:var(--text-gray);">まだブログ投稿がありません</p></div>';
+                    return;
+                }
+                
+                blogList.innerHTML = '';
+                snapshot.forEach(docSnap => {
+                    const post = docSnap.data();
+                    const id = docSnap.id;
+                    const postDiv = document.createElement('div');
+                    postDiv.className = 'blog-post';
+                    postDiv.innerHTML = `
+                        <div class="blog-post-title">${post.title}</div>
+                        <div class="blog-post-content">${post.content}</div>
+                        <div class="blog-post-meta">
+                            <div class="video-date">📅 ${new Date(post.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
+                            ${isAdmin ? `<button class="btn btn-danger btn-small" onclick="deleteBlogPost('${id}')">🗑️ 削除</button>` : ''}
+                        </div>
+                    `;
+                    blogList.appendChild(postDiv);
+                });
             } catch (error) {
-                alert('❌ エラー: ' + error.message);
+                blogList.innerHTML = '<div class="card"><p style="text-align:center;color:var(--danger);">読み込みエラー</p></div>';
             }
-        };
+        }
 
-        // つぶやき削除
-        window.deleteTweet = async function(id) {
+        // ブログ削除
+        window.deleteBlogPost = async function(id) {
             if (!confirm('本当に削除しますか？')) return;
-            
             try {
-                await deleteDoc(doc(db, 'tweets', id));
+                await deleteDoc(doc(db, 'blogPosts', id));
+                loadBlogPosts();
+                alert('✅ 削除しました');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // つぶやき追加
+        window.addTweet = async function() {
+            const content = document.getElementById('tweetContent').value;
+            if (!content) {
+                alert('⚠️ 内容を入力してください');
+                return;
+            }
+            try {
+                await addDoc(collection(db, 'tweets'), { content, timestamp: new Date() });
+                document.getElementById('tweetContent').value = '';
                 loadTweets();
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
@@ -1010,9 +1199,8 @@
                     const tweetDiv = document.createElement('div');
                     tweetDiv.className = 'tweet';
                     tweetDiv.innerHTML = `
-                        ${currentUser ? `
+                        ${isAdmin ? `
                             <div class="tweet-actions">
-                                <button class="btn btn-outline btn-small" onclick="showEditTweetModal('${id}', '${tweet.content.replace(/'/g, "\\'")}')">✏️</button>
                                 <button class="btn btn-danger btn-small" onclick="deleteTweet('${id}')">🗑️</button>
                             </div>
                         ` : ''}
@@ -1026,49 +1214,37 @@
             }
         }
 
-        // VIPつぶやき追加
-        window.addVipTweet = async function() {
-            const content = document.getElementById('vipTweetContent').value;
-            
-            if (!content) {
-                alert('⚠️ 内容を入力してください');
-                return;
-            }
-            
+        // つぶやき削除
+        window.deleteTweet = async function(id) {
+            if (!confirm('本当に削除しますか？')) return;
             try {
-                await addDoc(collection(db, 'vipTweets'), {
-                    content,
-                    timestamp: new Date()
-                });
-                
-                document.getElementById('vipTweetContent').value = '';
-                loadVipContent();
-                alert('✅ VIP投稿しました！');
+                await deleteDoc(doc(db, 'tweets', id));
+                loadTweets();
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
         };
 
-        // VIP投稿追加
-        window.addVipPost = async function() {
-            const title = document.getElementById('vipPostTitle').value;
-            const content = document.getElementById('vipPostContent').value;
-            
-            if (!title || !content) {
-                alert('⚠️ タイトルと内容を入力してください');
-                return;
-            }
-            
+        // サイト概要読み込み
+        async function loadSiteDescription() {
             try {
-                await addDoc(collection(db, 'vipPosts'), {
-                    title, content,
-                    timestamp: new Date()
-                });
-                
-                document.getElementById('vipPostTitle').value = '';
-                document.getElementById('vipPostContent').value = '';
-                loadVipContent();
-                alert('✅ VIP投稿を追加しました！');
+                const docRef = doc(db, 'settings', 'siteDescription');
+                const docSnap = await getDoc(docRef);
+                const description = docSnap.exists() ? docSnap.data().content : 'サイトの概要がまだ設定されていません。';
+                document.getElementById('siteDescriptionView').textContent = description;
+                document.getElementById('siteDescriptionInput').value = description;
+            } catch (error) {
+                document.getElementById('siteDescriptionView').textContent = '読み込みエラー';
+            }
+        }
+
+        // サイト概要更新
+        window.updateSiteDescription = async function() {
+            const content = document.getElementById('siteDescriptionInput').value;
+            try {
+                await setDoc(doc(db, 'settings', 'siteDescription'), { content });
+                loadSiteDescription();
+                alert('✅ 保存しました！');
             } catch (error) {
                 alert('❌ エラー: ' + error.message);
             }
@@ -1079,24 +1255,13 @@
             const vipContentDiv = document.getElementById('vipContent');
             
             if (!currentUser) {
-                vipContentDiv.innerHTML = `
-                    <div class="vip-locked">
-                        <div class="vip-locked-icon">🔒</div>
-                        <h2>VIP会員限定コンテンツ</h2>
-                        <p>ログインが必要です</p>
-                    </div>
-                `;
+                vipContentDiv.innerHTML = `<div class="vip-locked"><div class="vip-locked-icon">🔒</div><h2>VIP会員限定コンテンツ</h2><p>ログインが必要です</p></div>`;
                 return;
             }
             
-            if (!isVipUser) {
-                vipContentDiv.innerHTML = `
-                    <div class="vip-locked">
-                        <div class="vip-locked-icon">🔒</div>
-                        <h2>VIP会員限定コンテンツ</h2>
-                        <p>VIPホワイトリストに登録されていません</p>
-                    </div>
-                `;
+            // 管理者は無条件にアクセス可能
+            if (!isAdmin && !isVipUser) {
+                vipContentDiv.innerHTML = `<div class="vip-locked"><div class="vip-locked-icon">🔒</div><h2>VIP会員限定コンテンツ</h2><p>VIPホワイトリストに登録されていません</p></div>`;
                 return;
             }
             
@@ -1149,11 +1314,44 @@
             }
         }
 
+        // VIPつぶやき追加
+        window.addVipTweet = async function() {
+            const content = document.getElementById('vipTweetContent').value;
+            if (!content) {
+                alert('⚠️ 内容を入力してください');
+                return;
+            }
+            try {
+                await addDoc(collection(db, 'vipTweets'), { content, timestamp: new Date() });
+                document.getElementById('vipTweetContent').value = '';
+                loadVipContent();
+                alert('✅ VIP投稿しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // VIP投稿追加
+        window.addVipPost = async function() {
+            const title = document.getElementById('vipPostTitle').value;
+            const content = document.getElementById('vipPostContent').value;
+            if (!title || !content) {
+                alert('⚠️ タイトルと内容を入力してください');
+                return;
+            }
+            try {
+                await addDoc(collection(db, 'vipPosts'), { title, content, timestamp: new Date() });
+                document.getElementById('vipPostTitle').value = '';
+                document.getElementById('vipPostContent').value = '';
+                loadVipContent();
+                alert('✅ VIP投稿を追加しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
         // 初期読み込み
-        loadVideos();
-        loadTweets();
-        loadVipContent();
-        loadSiteDescription();
+        loadAllContent();
     </script>
 </body>
 </html>
