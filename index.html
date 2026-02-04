@@ -240,7 +240,6 @@
         .video-thumbnail-container {
             position: relative;
             width: 100%;
-            height: 250px;
             overflow: hidden;
             background: var(--dark-blue-lighter);
         }
@@ -301,6 +300,51 @@
             display: flex;
             gap: 0.5rem;
             margin-top: 1rem;
+        }
+        
+        /* 画像サイズ調整 */
+        .image-size-control {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding: 1rem;
+            background: var(--dark-blue-lighter);
+            border-radius: 0.5rem;
+        }
+        
+        .image-size-control label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            min-width: 120px;
+        }
+        
+        .image-size-control input[type="range"] {
+            flex: 1;
+            margin: 0;
+            height: 6px;
+            background: var(--dark-blue);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        .image-size-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        
+        .image-size-control input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
         }
         
         /* ブログ投稿 */
@@ -439,7 +483,6 @@
         
         /* 動画詳細モーダル */
         .video-detail-modal .video-thumbnail-container {
-            height: 400px;
             margin-bottom: 1.5rem;
             border-radius: 0.75rem;
             overflow: hidden;
@@ -523,9 +566,6 @@
                 flex-wrap: wrap;
                 justify-content: space-between;
             }
-            .video-detail-modal .video-thumbnail-container {
-                height: 250px;
-            }
         }
     </style>
 </head>
@@ -564,6 +604,13 @@
                         <input type="text" id="videoTitle" placeholder="タイトル">
                         <textarea id="videoDescription" placeholder="説明文（改行可能）"></textarea>
                         <input type="url" id="videoThumbnail" placeholder="サムネイル画像URL">
+                        
+                        <div class="image-size-control">
+                            <label>📐 画像の高さ: <span id="thumbnailHeightValue">250</span>px</label>
+                            <input type="range" id="thumbnailHeight" min="150" max="600" value="250" 
+                                   oninput="document.getElementById('thumbnailHeightValue').textContent=this.value">
+                        </div>
+                        
                         <button class="btn btn-primary" onclick="addVideo()">📤 動画を追加</button>
                     </div>
                     
@@ -658,6 +705,13 @@
             <input type="text" id="editVideoTitle" placeholder="タイトル">
             <textarea id="editVideoDescription" placeholder="説明文"></textarea>
             <input type="url" id="editVideoThumbnail" placeholder="サムネイル画像URL">
+            
+            <div class="image-size-control">
+                <label>📐 画像の高さ: <span id="editThumbnailHeightValue">250</span>px</label>
+                <input type="range" id="editThumbnailHeight" min="150" max="600" value="250"
+                       oninput="document.getElementById('editThumbnailHeightValue').textContent=this.value">
+            </div>
+            
             <button class="btn btn-primary" onclick="updateVideo()">💾 更新</button>
             <button class="btn btn-outline" onclick="closeModal('editVideoModal')" style="margin-top:0.5rem;">キャンセル</button>
         </div>
@@ -826,6 +880,7 @@
             const title = document.getElementById('videoTitle').value;
             const description = document.getElementById('videoDescription').value;
             const thumbnail = document.getElementById('videoThumbnail').value;
+            const thumbnailHeight = document.getElementById('thumbnailHeight').value;
             
             if (!title || !description) {
                 alert('⚠️ タイトルと説明を入力してください');
@@ -834,13 +889,15 @@
             
             try {
                 await addDoc(collection(db, 'videos'), {
-                    title, description, thumbnail,
+                    title, description, thumbnail, thumbnailHeight,
                     timestamp: new Date()
                 });
                 
                 document.getElementById('videoTitle').value = '';
                 document.getElementById('videoDescription').value = '';
                 document.getElementById('videoThumbnail').value = '';
+                document.getElementById('thumbnailHeight').value = '250';
+                document.getElementById('thumbnailHeightValue').textContent = '250';
                 
                 loadVideos();
                 alert('✅ 動画を追加しました！');
@@ -851,9 +908,10 @@
 
         // 動画詳細表示
         window.showVideoDetail = function(video) {
+            const height = video.thumbnailHeight || 400;
             const detailContent = document.getElementById('videoDetailContent');
             detailContent.innerHTML = `
-                <div class="video-thumbnail-container" style="height:400px">
+                <div class="video-thumbnail-container" style="height:${height}px">
                     ${video.thumbnail ? 
                         `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
                         '<div class="video-thumbnail-placeholder">🎬</div>'}
@@ -873,6 +931,9 @@
             document.getElementById('editVideoTitle').value = video.title;
             document.getElementById('editVideoDescription').value = video.description;
             document.getElementById('editVideoThumbnail').value = video.thumbnail || '';
+            const height = video.thumbnailHeight || 250;
+            document.getElementById('editThumbnailHeight').value = height;
+            document.getElementById('editThumbnailHeightValue').textContent = height;
             showModal('editVideoModal');
         };
 
@@ -882,10 +943,11 @@
             const title = document.getElementById('editVideoTitle').value;
             const description = document.getElementById('editVideoDescription').value;
             const thumbnail = document.getElementById('editVideoThumbnail').value;
+            const thumbnailHeight = document.getElementById('editThumbnailHeight').value;
             
             try {
                 await updateDoc(doc(db, 'videos', id), {
-                    title, description, thumbnail
+                    title, description, thumbnail, thumbnailHeight
                 });
                 
                 closeModal('editVideoModal');
@@ -928,12 +990,13 @@
                 snapshot.forEach(docSnap => {
                     const video = docSnap.data();
                     const id = docSnap.id;
+                    const height = video.thumbnailHeight || 250;
                     
                     const card = document.createElement('div');
                     card.className = 'video-card';
                     card.onclick = () => showVideoDetail(video);
                     card.innerHTML = `
-                        <div class="video-thumbnail-container">
+                        <div class="video-thumbnail-container" style="height:${height}px">
                             ${video.thumbnail ? 
                                 `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
                                 '<div class="video-thumbnail-placeholder">🎬</div>'}
