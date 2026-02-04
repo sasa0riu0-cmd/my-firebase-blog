@@ -13,39 +13,45 @@
         
         :root {
             --primary: #6366f1;
-            --primary-dark: #4f46e5;
             --secondary: #8b5cf6;
-            --dark: #1e293b;
-            --gray: #64748b;
-            --light-gray: #f1f5f9;
+            --dark-blue: #0f172a;
+            --dark-blue-light: #1e293b;
+            --dark-blue-lighter: #334155;
+            --accent: #3b82f6;
+            --text-light: #e2e8f0;
+            --text-gray: #94a3b8;
             --white: #ffffff;
-            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --success: #10b981;
+            --danger: #ef4444;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--light-gray);
-            color: var(--dark);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1a2332 100%);
+            color: var(--text-light);
             line-height: 1.6;
+            min-height: 100vh;
         }
         
         /* ヘッダー */
         .header {
-            background: var(--white);
-            box-shadow: var(--shadow);
+            background: var(--dark-blue-light);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 2px solid var(--dark-blue-lighter);
         }
         
         .header-content {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem 2rem;
+            padding: 1rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .logo {
@@ -61,14 +67,14 @@
         
         .nav-tabs {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
         }
         
         .nav-tab {
-            padding: 0.75rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             border: none;
             background: transparent;
-            color: var(--gray);
+            color: var(--text-gray);
             font-weight: 600;
             cursor: pointer;
             border-radius: 0.5rem;
@@ -76,24 +82,24 @@
         }
         
         .nav-tab:hover {
-            background: var(--light-gray);
-            color: var(--dark);
+            background: var(--dark-blue-lighter);
+            color: var(--text-light);
         }
         
         .nav-tab.active {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: var(--white);
         }
         
         .user-menu {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
         
         .user-status {
             font-size: 0.875rem;
-            color: var(--gray);
+            color: var(--text-gray);
         }
         
         .btn {
@@ -103,6 +109,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 0.875rem;
         }
         
         .btn-primary {
@@ -112,7 +119,7 @@
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
         }
         
         .btn-outline {
@@ -121,18 +128,42 @@
             color: var(--primary);
         }
         
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+        
+        .btn-small {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+        
         /* レイアウト */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
+        }
+        
+        .layout {
             display: grid;
             grid-template-columns: 1fr 350px;
-            gap: 2rem;
+            gap: 1.5rem;
+        }
+        
+        /* スマホで上に表示 */
+        @media (max-width: 1024px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: -1; /* スマホで一番上に */
+            }
         }
         
         .main-content {
-            min-height: calc(100vh - 200px);
+            min-height: 300px;
         }
         
         .sidebar {
@@ -142,17 +173,18 @@
         }
         
         .card {
-            background: var(--white);
+            background: var(--dark-blue-light);
             border-radius: 1rem;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             padding: 1.5rem;
             margin-bottom: 1.5rem;
+            border: 1px solid var(--dark-blue-lighter);
         }
         
         .card-title {
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--text-light);
             margin-bottom: 1rem;
             display: flex;
             align-items: center;
@@ -162,61 +194,78 @@
         /* 動画グリッド */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
             gap: 1.5rem;
         }
         
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
         .video-card {
-            background: var(--white);
+            background: var(--dark-blue-light);
             border-radius: 1rem;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: all 0.3s;
             cursor: pointer;
+            border: 1px solid var(--dark-blue-lighter);
         }
         
         .video-card:hover {
             transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 20px 30px rgba(99, 102, 241, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .video-thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: var(--dark-blue-lighter);
         }
         
         .video-thumbnail {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: transform 0.3s;
+        }
+        
+        .video-card:hover .video-thumbnail {
+            transform: scale(1.05);
+        }
+        
+        .video-thumbnail-placeholder {
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-        
-        .video-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            font-size: 4rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
         }
         
         .video-info {
-            padding: 1.25rem;
+            padding: 1.5rem;
         }
         
         .video-title {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
         }
         
         .video-description {
-            color: var(--gray);
+            color: var(--text-gray);
             font-size: 0.875rem;
-            line-height: 1.5;
-            margin-bottom: 0.75rem;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            max-height: 4.5em;
             overflow: hidden;
         }
         
@@ -224,77 +273,117 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--light-gray);
+            padding-top: 1rem;
+            border-top: 1px solid var(--dark-blue-lighter);
         }
         
         .video-price {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .video-date {
             font-size: 0.75rem;
-            color: var(--gray);
+            color: var(--text-gray);
         }
         
         .video-actions {
             display: flex;
             gap: 0.5rem;
-            margin-top: 0.75rem;
+            margin-top: 1rem;
         }
         
-        .btn-small {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.75rem;
-        }
-        
-        /* 管理者発言（SNS風） */
+        /* つぶやき */
         .tweet {
-            background: var(--white);
+            background: var(--dark-blue-lighter);
             border-radius: 0.75rem;
             padding: 1rem;
             margin-bottom: 0.75rem;
             border-left: 3px solid var(--primary);
             transition: all 0.2s;
+            position: relative;
         }
         
         .tweet:hover {
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            border-left-color: var(--secondary);
         }
         
         .tweet-content {
-            color: var(--dark);
+            color: var(--text-light);
             font-size: 0.875rem;
             line-height: 1.5;
             margin-bottom: 0.5rem;
+            word-wrap: break-word;
         }
         
         .tweet-date {
-            color: var(--gray);
+            color: var(--text-gray);
             font-size: 0.75rem;
+        }
+        
+        .tweet-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        /* サイト概要 */
+        .site-description {
+            color: var(--text-gray);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            padding: 1rem;
+            background: var(--dark-blue-lighter);
+            border-radius: 0.5rem;
+            white-space: pre-wrap;
         }
         
         /* フォーム */
         input, textarea {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--light-gray);
+            padding: 0.875rem;
+            border: 2px solid var(--dark-blue-lighter);
             border-radius: 0.5rem;
             font-size: 0.875rem;
             margin-bottom: 0.75rem;
             transition: all 0.2s;
+            background: var(--dark-blue);
+            color: var(--text-light);
         }
         
         input:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
         
         textarea {
             resize: vertical;
             min-height: 100px;
+        }
+        
+        /* 画像サイズ調整 */
+        .image-size-control {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .image-size-control label {
+            font-size: 0.875rem;
+            color: var(--text-gray);
+        }
+        
+        .image-size-control input[type="range"] {
+            flex: 1;
+            margin: 0;
         }
         
         /* モーダル */
@@ -305,73 +394,48 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
             animation: fadeIn 0.2s;
+            overflow-y: auto;
+            padding: 2rem 1rem;
         }
         
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--white);
+            position: relative;
+            background: var(--dark-blue-light);
             padding: 2rem;
             border-radius: 1rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            border: 1px solid var(--dark-blue-lighter);
         }
         
         .modal-title {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--dark);
+            color: var(--text-light);
             margin-bottom: 1.5rem;
         }
         
-        /* VIPロック画面 */
-        .vip-locked {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--gray);
+        /* 動画詳細モーダル */
+        .video-detail-modal .video-thumbnail-container {
+            height: 400px;
+            margin-bottom: 1.5rem;
+            border-radius: 0.75rem;
+            overflow: hidden;
         }
         
-        .vip-locked-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
+        .video-detail-content {
+            color: var(--text-light);
         }
         
-        .vip-locked h2 {
-            font-size: 1.5rem;
-            color: var(--dark);
-            margin-bottom: 0.5rem;
-        }
-        
-        /* VIPコンテンツ */
-        .vip-post {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border: 2px solid #fbbf24;
-        }
-        
-        .vip-post-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .vip-post-content {
-            color: var(--dark);
-            line-height: 1.6;
-            margin-bottom: 0.75rem;
+        .video-detail-description {
+            color: var(--text-gray);
+            line-height: 1.8;
+            margin: 1rem 0;
+            white-space: pre-wrap;
         }
         
         /* タブコンテンツ */
@@ -392,7 +456,42 @@
             display: block;
         }
         
-        /* アニメーション */
+        /* VIP */
+        .vip-locked {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-gray);
+        }
+        
+        .vip-locked-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        
+        .vip-post {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1), rgba(245, 158, 11, 0.1));
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(251, 191, 36, 0.3);
+        }
+        
+        .vip-post-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .vip-post-content {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+        
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -405,18 +504,24 @@
         }
         
         /* レスポンシブ */
-        @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr;
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
             }
             
-            .sidebar {
-                position: relative;
-                top: 0;
+            .nav-tabs {
+                width: 100%;
+                justify-content: space-around;
             }
             
-            .video-grid {
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            .user-menu {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .video-detail-modal .video-thumbnail-container {
+                height: 250px;
             }
         }
     </style>
@@ -425,9 +530,7 @@
     <!-- ヘッダー -->
     <header class="header">
         <div class="header-content">
-            <div class="logo">
-                🎬 Premium Store
-            </div>
+            <div class="logo">🎬 Premium Store</div>
             
             <nav class="nav-tabs">
                 <button class="nav-tab active" onclick="switchTab('videos')">📹 動画</button>
@@ -436,74 +539,86 @@
             
             <div class="user-menu">
                 <span class="user-status" id="userStatus">👤 ゲスト</span>
-                <button id="loginBtn" class="btn btn-primary" onclick="showLoginModal()">ログイン</button>
+                <button id="loginBtn" class="btn btn-primary" onclick="showModal('loginModal')">ログイン</button>
                 <button id="logoutBtn" class="btn btn-outline" style="display:none;" onclick="logout()">ログアウト</button>
             </div>
         </div>
     </header>
     
     <div class="container">
-        <!-- メインコンテンツ -->
-        <main class="main-content">
-            <!-- 動画タブ -->
-            <div id="videos" class="tab-content active">
-                <!-- 管理者用投稿フォーム -->
-                <div id="videoAdminPanel" class="card admin-panel">
-                    <div class="card-title">🎥 動画を追加</div>
-                    <input type="text" id="videoTitle" placeholder="タイトル">
-                    <textarea id="videoDescription" placeholder="説明文"></textarea>
-                    <input type="url" id="videoThumbnail" placeholder="サムネイル画像URL">
-                    <input type="text" id="videoPrice" placeholder="価格（例: ¥1,000）">
-                    <button class="btn btn-primary" onclick="addVideo()">📤 動画を追加</button>
-                </div>
-                
-                <!-- 動画一覧 -->
-                <div class="video-grid" id="videoList"></div>
-            </div>
-            
-            <!-- VIPタブ -->
-            <div id="vip" class="tab-content">
-                <div id="vipContent">
-                    <div class="vip-locked">
-                        <div class="vip-locked-icon">🔒</div>
-                        <h2>VIP会員限定コンテンツ</h2>
-                        <p>このコンテンツを閲覧するには、VIP会員としてログインする必要があります</p>
-                    </div>
-                </div>
-                
-                <!-- VIP管理者パネル -->
-                <div id="vipAdminPanel" class="admin-panel">
-                    <div class="card">
-                        <div class="card-title">💭 VIP専用つぶやき</div>
-                        <textarea id="vipTweetContent" placeholder="VIPメンバーへのメッセージ..." maxlength="280"></textarea>
-                        <button class="btn btn-primary" onclick="addVipTweet()">🐦 投稿</button>
+        <div class="layout">
+            <!-- メインコンテンツ -->
+            <main class="main-content">
+                <!-- 動画タブ -->
+                <div id="videos" class="tab-content active">
+                    <!-- 管理者用投稿フォーム -->
+                    <div id="videoAdminPanel" class="card admin-panel">
+                        <div class="card-title">🎥 動画を追加</div>
+                        <input type="text" id="videoTitle" placeholder="タイトル">
+                        <textarea id="videoDescription" placeholder="説明文（改行可能）"></textarea>
+                        <input type="url" id="videoThumbnail" placeholder="サムネイル画像URL">
+                        <div class="image-size-control">
+                            <label>画像の高さ: <span id="thumbnailHeightValue">250</span>px</label>
+                            <input type="range" id="thumbnailHeight" min="200" max="500" value="250" 
+                                   oninput="document.getElementById('thumbnailHeightValue').textContent=this.value">
+                        </div>
+                        <input type="text" id="videoPrice" placeholder="価格（例: ¥1,000）">
+                        <button class="btn btn-primary" onclick="addVideo()">📤 動画を追加</button>
                     </div>
                     
-                    <div class="card">
-                        <div class="card-title">✨ VIP投稿を追加</div>
-                        <input type="text" id="vipPostTitle" placeholder="タイトル">
-                        <textarea id="vipPostContent" placeholder="VIP限定コンテンツ"></textarea>
-                        <button class="btn btn-primary" onclick="addVipPost()">👑 VIP投稿</button>
+                    <!-- 動画一覧 -->
+                    <div class="video-grid" id="videoList"></div>
+                </div>
+                
+                <!-- VIPタブ -->
+                <div id="vip" class="tab-content">
+                    <div id="vipContent"></div>
+                    
+                    <!-- VIP管理者パネル -->
+                    <div id="vipAdminPanel" class="admin-panel">
+                        <div class="card">
+                            <div class="card-title">💭 VIP専用つぶやき</div>
+                            <textarea id="vipTweetContent" placeholder="VIPメンバーへのメッセージ..." maxlength="500"></textarea>
+                            <button class="btn btn-primary" onclick="addVipTweet()">🐦 投稿</button>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-title">✨ VIP投稿を追加</div>
+                            <input type="text" id="vipPostTitle" placeholder="タイトル">
+                            <textarea id="vipPostContent" placeholder="VIP限定コンテンツ"></textarea>
+                            <button class="btn btn-primary" onclick="addVipPost()">👑 VIP投稿</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-        
-        <!-- サイドバー（管理者発言） -->
-        <aside class="sidebar">
-            <div class="card">
-                <div class="card-title">💬 管理者の最新情報</div>
-                
-                <!-- 管理者用投稿フォーム -->
-                <div id="tweetAdminPanel" class="admin-panel">
-                    <textarea id="tweetContent" placeholder="つぶやく..." maxlength="280" style="min-height:80px;"></textarea>
-                    <button class="btn btn-primary" onclick="addTweet()">🐦 投稿</button>
+            </main>
+            
+            <!-- サイドバー -->
+            <aside class="sidebar">
+                <!-- サイト概要 -->
+                <div class="card">
+                    <div class="card-title">📖 サイト概要</div>
+                    <div id="siteDescriptionView" class="site-description">読み込み中...</div>
+                    <div id="siteDescriptionEdit" class="admin-panel">
+                        <textarea id="siteDescriptionInput" style="min-height:150px;"></textarea>
+                        <button class="btn btn-primary" onclick="updateSiteDescription()">💾 保存</button>
+                    </div>
                 </div>
                 
-                <!-- つぶやき一覧 -->
-                <div id="tweetList" style="max-height: 500px; overflow-y: auto;"></div>
-            </div>
-        </aside>
+                <!-- 管理者つぶやき -->
+                <div class="card">
+                    <div class="card-title">💬 管理者の最新情報</div>
+                    
+                    <!-- 管理者用投稿フォーム -->
+                    <div id="tweetAdminPanel" class="admin-panel">
+                        <textarea id="tweetContent" placeholder="つぶやく..." maxlength="280" style="min-height:80px;"></textarea>
+                        <button class="btn btn-primary" onclick="addTweet()">🐦 投稿</button>
+                    </div>
+                    
+                    <!-- つぶやき一覧 -->
+                    <div id="tweetList" style="max-height: 500px; overflow-y: auto;"></div>
+                </div>
+            </aside>
+        </div>
     </div>
     
     <!-- ログインモーダル -->
@@ -517,23 +632,47 @@
         </div>
     </div>
     
-    <!-- 編集モーダル -->
-    <div id="editModal" class="modal">
+    <!-- 動画編集モーダル -->
+    <div id="editVideoModal" class="modal">
         <div class="modal-content">
             <div class="modal-title">✏️ 動画を編集</div>
             <input type="hidden" id="editVideoId">
             <input type="text" id="editVideoTitle" placeholder="タイトル">
             <textarea id="editVideoDescription" placeholder="説明文"></textarea>
             <input type="url" id="editVideoThumbnail" placeholder="サムネイル画像URL">
+            <div class="image-size-control">
+                <label>画像の高さ: <span id="editThumbnailHeightValue">250</span>px</label>
+                <input type="range" id="editThumbnailHeight" min="200" max="500" value="250"
+                       oninput="document.getElementById('editThumbnailHeightValue').textContent=this.value">
+            </div>
             <input type="text" id="editVideoPrice" placeholder="価格">
             <button class="btn btn-primary" onclick="updateVideo()">💾 更新</button>
-            <button class="btn btn-outline" onclick="closeModal('editModal')" style="margin-top:0.5rem;">キャンセル</button>
+            <button class="btn btn-outline" onclick="closeModal('editVideoModal')" style="margin-top:0.5rem;">キャンセル</button>
+        </div>
+    </div>
+    
+    <!-- 動画詳細モーダル -->
+    <div id="videoDetailModal" class="modal video-detail-modal">
+        <div class="modal-content">
+            <div id="videoDetailContent"></div>
+            <button class="btn btn-outline" onclick="closeModal('videoDetailModal')" style="margin-top:1rem;">閉じる</button>
+        </div>
+    </div>
+    
+    <!-- つぶやき編集モーダル -->
+    <div id="editTweetModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">✏️ つぶやきを編集</div>
+            <input type="hidden" id="editTweetId">
+            <textarea id="editTweetContent" maxlength="280"></textarea>
+            <button class="btn btn-primary" onclick="updateTweet()">💾 更新</button>
+            <button class="btn btn-outline" onclick="closeModal('editTweetModal')" style="margin-top:0.5rem;">キャンセル</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, getDoc, setDoc, orderBy, query, where } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
         import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
         // ⚠️ Firebase設定をここに貼り付け
@@ -571,6 +710,7 @@
                 isVipUser = false;
             }
             loadVipContent();
+            loadSiteDescription();
         });
 
         // VIP権限チェック
@@ -613,8 +753,35 @@
         };
 
         // モーダル操作
-        window.showLoginModal = () => document.getElementById('loginModal').style.display = 'block';
+        window.showModal = (id) => document.getElementById(id).style.display = 'block';
         window.closeModal = (id) => document.getElementById(id).style.display = 'none';
+
+        // サイト概要読み込み
+        async function loadSiteDescription() {
+            try {
+                const docRef = doc(db, 'settings', 'siteDescription');
+                const docSnap = await getDoc(docRef);
+                
+                const description = docSnap.exists() ? docSnap.data().content : 'サイトの概要がまだ設定されていません。';
+                document.getElementById('siteDescriptionView').textContent = description;
+                document.getElementById('siteDescriptionInput').value = description;
+            } catch (error) {
+                document.getElementById('siteDescriptionView').textContent = '読み込みエラー';
+            }
+        }
+
+        // サイト概要更新
+        window.updateSiteDescription = async function() {
+            const content = document.getElementById('siteDescriptionInput').value;
+            
+            try {
+                await setDoc(doc(db, 'settings', 'siteDescription'), { content });
+                loadSiteDescription();
+                alert('✅ 保存しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
 
         // 動画追加
         window.addVideo = async function() {
@@ -622,15 +789,16 @@
             const description = document.getElementById('videoDescription').value;
             const thumbnail = document.getElementById('videoThumbnail').value;
             const price = document.getElementById('videoPrice').value;
+            const thumbnailHeight = document.getElementById('thumbnailHeight').value;
             
             if (!title || !description || !price) {
-                alert('⚠️ すべての項目を入力してください');
+                alert('⚠️ タイトル、説明、価格を入力してください');
                 return;
             }
             
             try {
                 await addDoc(collection(db, 'videos'), {
-                    title, description, thumbnail, price,
+                    title, description, thumbnail, price, thumbnailHeight,
                     timestamp: new Date()
                 });
                 
@@ -638,6 +806,8 @@
                 document.getElementById('videoDescription').value = '';
                 document.getElementById('videoThumbnail').value = '';
                 document.getElementById('videoPrice').value = '';
+                document.getElementById('thumbnailHeight').value = '250';
+                document.getElementById('thumbnailHeightValue').textContent = '250';
                 
                 loadVideos();
                 alert('✅ 動画を追加しました！');
@@ -646,14 +816,37 @@
             }
         };
 
+        // 動画詳細表示
+        window.showVideoDetail = function(video) {
+            const detailContent = document.getElementById('videoDetailContent');
+            detailContent.innerHTML = `
+                <div class="video-thumbnail-container" style="height:${video.thumbnailHeight || 250}px">
+                    ${video.thumbnail ? 
+                        `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
+                        '<div class="video-thumbnail-placeholder">🎬</div>'}
+                </div>
+                <div class="video-detail-content">
+                    <h2 class="video-title">${video.title}</h2>
+                    <div class="video-detail-description">${video.description}</div>
+                    <div class="video-meta">
+                        <div class="video-price">${video.price}</div>
+                        <div class="video-date">📅 ${new Date(video.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
+                    </div>
+                </div>
+            `;
+            showModal('videoDetailModal');
+        };
+
         // 動画編集モーダルを開く
-        window.showEditModal = function(id, title, description, thumbnail, price) {
+        window.showEditVideoModal = function(id, video) {
             document.getElementById('editVideoId').value = id;
-            document.getElementById('editVideoTitle').value = title;
-            document.getElementById('editVideoDescription').value = description;
-            document.getElementById('editVideoThumbnail').value = thumbnail || '';
-            document.getElementById('editVideoPrice').value = price;
-            document.getElementById('editModal').style.display = 'block';
+            document.getElementById('editVideoTitle').value = video.title;
+            document.getElementById('editVideoDescription').value = video.description;
+            document.getElementById('editVideoThumbnail').value = video.thumbnail || '';
+            document.getElementById('editVideoPrice').value = video.price;
+            document.getElementById('editThumbnailHeight').value = video.thumbnailHeight || 250;
+            document.getElementById('editThumbnailHeightValue').textContent = video.thumbnailHeight || 250;
+            showModal('editVideoModal');
         };
 
         // 動画更新
@@ -663,13 +856,14 @@
             const description = document.getElementById('editVideoDescription').value;
             const thumbnail = document.getElementById('editVideoThumbnail').value;
             const price = document.getElementById('editVideoPrice').value;
+            const thumbnailHeight = document.getElementById('editThumbnailHeight').value;
             
             try {
                 await updateDoc(doc(db, 'videos', id), {
-                    title, description, thumbnail, price
+                    title, description, thumbnail, price, thumbnailHeight
                 });
                 
-                closeModal('editModal');
+                closeModal('editVideoModal');
                 loadVideos();
                 alert('✅ 更新しました！');
             } catch (error) {
@@ -693,14 +887,14 @@
         // 動画一覧読み込み
         async function loadVideos() {
             const videoList = document.getElementById('videoList');
-            videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);">読み込み中...</div>';
+            videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-gray);">読み込み中...</div>';
             
             try {
                 const q = query(collection(db, 'videos'), orderBy('timestamp', 'desc'));
                 const snapshot = await getDocs(q);
                 
                 if (snapshot.empty) {
-                    videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--gray);">まだ動画がありません</div>';
+                    videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text-gray);">まだ動画がありません</div>';
                     return;
                 }
                 
@@ -710,9 +904,12 @@
                     const id = docSnap.id;
                     const card = document.createElement('div');
                     card.className = 'video-card';
+                    card.onclick = () => showVideoDetail(video);
                     card.innerHTML = `
-                        <div class="video-thumbnail">
-                            ${video.thumbnail ? `<img src="${video.thumbnail}" alt="${video.title}">` : '🎬'}
+                        <div class="video-thumbnail-container" style="height:${video.thumbnailHeight || 250}px">
+                            ${video.thumbnail ? 
+                                `<img src="${video.thumbnail}" class="video-thumbnail" alt="${video.title}">` : 
+                                '<div class="video-thumbnail-placeholder">🎬</div>'}
                         </div>
                         <div class="video-info">
                             <div class="video-title">${video.title}</div>
@@ -722,9 +919,9 @@
                                 <div class="video-date">📅 ${new Date(video.timestamp.toDate()).toLocaleDateString('ja-JP')}</div>
                             </div>
                             ${currentUser ? `
-                                <div class="video-actions">
-                                    <button class="btn btn-outline btn-small" onclick="showEditModal('${id}', '${video.title.replace(/'/g, "\\'")}', '${video.description.replace(/'/g, "\\'")}', '${video.thumbnail || ''}', '${video.price}')">✏️ 編集</button>
-                                    <button class="btn btn-outline btn-small" onclick="deleteVideo('${id}')">🗑️ 削除</button>
+                                <div class="video-actions" onclick="event.stopPropagation()">
+                                    <button class="btn btn-outline btn-small" onclick="showEditVideoModal('${id}', ${JSON.stringify(video).replace(/"/g, '&quot;')})">✏️ 編集</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteVideo('${id}')">🗑️ 削除</button>
                                 </div>
                             ` : ''}
                         </div>
@@ -732,7 +929,7 @@
                     videoList.appendChild(card);
                 });
             } catch (error) {
-                videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#e74c3c;">読み込みエラー</div>';
+                videoList.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--danger);">読み込みエラー</div>';
             }
         }
 
@@ -758,33 +955,74 @@
             }
         };
 
+        // つぶやき編集モーダルを開く
+        window.showEditTweetModal = function(id, content) {
+            document.getElementById('editTweetId').value = id;
+            document.getElementById('editTweetContent').value = content;
+            showModal('editTweetModal');
+        };
+
+        // つぶやき更新
+        window.updateTweet = async function() {
+            const id = document.getElementById('editTweetId').value;
+            const content = document.getElementById('editTweetContent').value;
+            
+            try {
+                await updateDoc(doc(db, 'tweets', id), { content });
+                closeModal('editTweetModal');
+                loadTweets();
+                alert('✅ 更新しました！');
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
+        // つぶやき削除
+        window.deleteTweet = async function(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            
+            try {
+                await deleteDoc(doc(db, 'tweets', id));
+                loadTweets();
+            } catch (error) {
+                alert('❌ エラー: ' + error.message);
+            }
+        };
+
         // つぶやき一覧読み込み
         async function loadTweets() {
             const tweetList = document.getElementById('tweetList');
-            tweetList.innerHTML = '<div style="text-align:center;color:var(--gray);padding:1rem;">読み込み中...</div>';
+            tweetList.innerHTML = '<div style="text-align:center;color:var(--text-gray);padding:1rem;">読み込み中...</div>';
             
             try {
                 const q = query(collection(db, 'tweets'), orderBy('timestamp', 'desc'));
                 const snapshot = await getDocs(q);
                 
                 if (snapshot.empty) {
-                    tweetList.innerHTML = '<div style="text-align:center;color:var(--gray);padding:1rem;">まだ投稿がありません</div>';
+                    tweetList.innerHTML = '<div style="text-align:center;color:var(--text-gray);padding:1rem;">まだ投稿がありません</div>';
                     return;
                 }
                 
                 tweetList.innerHTML = '';
                 snapshot.forEach(docSnap => {
                     const tweet = docSnap.data();
+                    const id = docSnap.id;
                     const tweetDiv = document.createElement('div');
                     tweetDiv.className = 'tweet';
                     tweetDiv.innerHTML = `
+                        ${currentUser ? `
+                            <div class="tweet-actions">
+                                <button class="btn btn-outline btn-small" onclick="showEditTweetModal('${id}', '${tweet.content.replace(/'/g, "\\'")}')">✏️</button>
+                                <button class="btn btn-danger btn-small" onclick="deleteTweet('${id}')">🗑️</button>
+                            </div>
+                        ` : ''}
                         <div class="tweet-content">${tweet.content}</div>
                         <div class="tweet-date">📅 ${new Date(tweet.timestamp.toDate()).toLocaleString('ja-JP', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'})}</div>
                     `;
                     tweetList.appendChild(tweetDiv);
                 });
             } catch (error) {
-                tweetList.innerHTML = '<div style="text-align:center;color:#e74c3c;padding:1rem;">読み込みエラー</div>';
+                tweetList.innerHTML = '<div style="text-align:center;color:var(--danger);padding:1rem;">読み込みエラー</div>';
             }
         }
 
@@ -845,7 +1083,7 @@
                     <div class="vip-locked">
                         <div class="vip-locked-icon">🔒</div>
                         <h2>VIP会員限定コンテンツ</h2>
-                        <p>このコンテンツを閲覧するには、ログインが必要です</p>
+                        <p>ログインが必要です</p>
                     </div>
                 `;
                 return;
@@ -857,32 +1095,28 @@
                         <div class="vip-locked-icon">🔒</div>
                         <h2>VIP会員限定コンテンツ</h2>
                         <p>VIPホワイトリストに登録されていません</p>
-                        <p style="font-size:0.875rem;color:var(--gray);margin-top:1rem;">管理者にお問い合わせください</p>
                     </div>
                 `;
                 return;
             }
             
-            vipContentDiv.innerHTML = '<div class="card"><p style="text-align:center;color:var(--gray);">読み込み中...</p></div>';
+            vipContentDiv.innerHTML = '<div class="card"><p style="text-align:center;color:var(--text-gray);">読み込み中...</p></div>';
             
             try {
-                // VIPつぶやき
                 const tweetsQ = query(collection(db, 'vipTweets'), orderBy('timestamp', 'desc'));
                 const tweetsSnapshot = await getDocs(tweetsQ);
                 
-                // VIP投稿
                 const postsQ = query(collection(db, 'vipPosts'), orderBy('timestamp', 'desc'));
                 const postsSnapshot = await getDocs(postsQ);
                 
                 vipContentDiv.innerHTML = '';
                 
-                // VIPつぶやきセクション
                 const tweetsCard = document.createElement('div');
                 tweetsCard.className = 'card';
                 tweetsCard.innerHTML = '<div class="card-title">💬 VIP専用メッセージ</div>';
                 
                 if (tweetsSnapshot.empty) {
-                    tweetsCard.innerHTML += '<p style="text-align:center;color:var(--gray);">まだメッセージがありません</p>';
+                    tweetsCard.innerHTML += '<p style="text-align:center;color:var(--text-gray);">まだメッセージがありません</p>';
                 } else {
                     tweetsSnapshot.forEach(docSnap => {
                         const tweet = docSnap.data();
@@ -897,7 +1131,6 @@
                 }
                 vipContentDiv.appendChild(tweetsCard);
                 
-                // VIP投稿セクション
                 if (!postsSnapshot.empty) {
                     postsSnapshot.forEach(docSnap => {
                         const post = docSnap.data();
@@ -912,7 +1145,7 @@
                     });
                 }
             } catch (error) {
-                vipContentDiv.innerHTML = '<div class="card"><p style="text-align:center;color:#e74c3c;">読み込みエラー</p></div>';
+                vipContentDiv.innerHTML = '<div class="card"><p style="text-align:center;color:var(--danger);">読み込みエラー</p></div>';
             }
         }
 
@@ -920,6 +1153,7 @@
         loadVideos();
         loadTweets();
         loadVipContent();
+        loadSiteDescription();
     </script>
 </body>
 </html>
